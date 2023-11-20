@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Reviews</title>
+<!--    <link rel="stylesheet" href="styles.css">-->
+    <style>
+        /* Your existing styles can be included here */
+
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            background-color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        main {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        section {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 10px;
+            flex: 1 1 300px;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        /* Rating Stars */
+        .rating {
+            text-align: center;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .star {
+            color: #ffd700;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #f39c12;
+        }
+
+        /* Review Form */
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #f39c12;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #e67e22;
+        }
+
+        /* Customer Reviews */
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+
+    </style>
+</head>
+<body>
+<header>
+    <h1>Customer Reviews</h1>
+</header>
+
+<main>
+    <section class="reviews">
+        <h2>Leave a Review</h2>
+        <div class="rating" id="rating">
+            <span class="star" data-star="1">&#9733;</span>
+            <span class="star" data-star="2">&#9733;</span>
+            <span class="star" data-star="3">&#9733;</span>
+            <span class="star" data-star="4">&#9733;</span>
+            <span class="star" data-star="5">&#9733;</span>
+        </div>
+        <form id="reviewForm">
+            <label for="name">Your Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="ratingValue">Your Rating:</label>
+            <input type="hidden" id="ratingValue" name="ratingValue" required>
+            <textarea id="reviewMessage" name="reviewMessage" placeholder="Write your review here..." required></textarea>
+            <button type="submit">Submit Review</button>
+        </form>
+    </section>
+
+    <section class="customer-details">
+        <h2>Customer Reviews</h2>
+        <ul id="customerReviews"></ul>
+    </section>
+</main>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const stars = document.querySelectorAll('.star');
+        const reviewForm = document.getElementById('reviewForm');
+        const customerReviews = document.getElementById('customerReviews');
+
+        let selectedRating = 0;
+
+        stars.forEach(star => {
+            star.addEventListener('mouseover', function() {
+                resetStars();
+                const starValue = this.getAttribute('data-star');
+                highlightStars(starValue);
+            });
+
+            star.addEventListener('click', function() {
+                selectedRating = this.getAttribute('data-star');
+                document.getElementById('ratingValue').value = selectedRating;
+            });
+
+            star.addEventListener('mouseout', resetStars);
+        });
+
+        reviewForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const review = document.getElementById('reviewMessage').value;
+
+            if (selectedRating !== 0 && name && review) {
+                const listItem = document.createElement('li');
+                listItem.innerHTML = `<strong>${name}</strong> rated ${selectedRating} stars<br>${review}`;
+                customerReviews.appendChild(listItem);
+
+                // Clear form fields after submission
+                document.getElementById('name').value = '';
+                document.getElementById('reviewMessage').value = '';
+                selectedRating = 0;
+                document.getElementById('ratingValue').value = selectedRating;
+
+                // Reset stars
+                resetStars();
+            } else {
+                alert('Please fill in all fields and select a rating.');
+            }
+        });
+
+        function resetStars() {
+            stars.forEach(star => {
+                star.classList.remove('active');
+            });
+        }
+
+        function highlightStars(starValue) {
+            stars.forEach(star => {
+                if (star.getAttribute('data-star') <= starValue) {
+                    star.classList.add('active');
+                }
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

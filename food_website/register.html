@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+<form action="register.php" target="_self" method="post" onsubmit="return check()">
+    <div class="regup">
+        <div class="reg">
+            <h1>Registration form</h1>
+            <label for="user_name">Username:</label>
+            <input type="text" id="user_name" name="user_name" placeholder="Enter the user name" required>
+            <br><br>
+            <label for="gender" >Gender:</label>
+            <select id="gender" name="gender">
+                <option value="Female">Female</option>
+                <option value="Male" selected>Male</option>
+            </select>
+            <br><br>
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="Enter your email id" required>
+            <br><br>
+            <label for="mo">Mobile Number:</label>
+            <input type="text" id="mo" name="phone_number" placeholder="Enter the mobile number" required>
+            <br>
+            <br>
+            <label for="pass">Password:</label>
+            <input type="password" id="pass" name="pass" placeholder="Please enter the password" required>
+            <br><br>
+            <label for="re">Reenter Password:</label>
+            <input type="password" id="re" name="reenter" placeholder="Please reenter password" required>
+            <br><br>
+            <label for="dob">Date of birth:</label>
+            <input type="date" id="dob" name="dob" value="2004-07-02"><br><br>
+            <label for="nationality">Nationality:</label>
+            <select id="nationality" name="nationality">
+                <option value="ind">Indian</option>
+                <option value="ame">American</option>
+                <option value="aus" selected>Australian</option>
+                <option value="kor">Korean</option>
+            </select>
+            <br><br>
+            <label for="pre">Food preferences:</label>
+            <br>
+            <select id="pre" name="preferences">
+                <option value="veg">Vegetarian</option>
+                <option value="non-veg">Non-Vegetarian</option>
+                <option value="vegan" selected>Vegan</option>
+                <option value="cannibals">Cannibals</option>
+            </select>
+            <br><br>
+            <label for="fo">Favourite Food:</label>
+            <br>
+            <select id="fo" name="favourite_food">
+                <option value="pizza">Pizza</option>
+                <option value="burger">Burger</option>
+                <option value="sandwich" selected>sandwich</option>
+                <option value="kfc">kfc</option>
+            </select>
+            <br><br>
+            <label for="foi">Favourite cuisine:</label>
+            <br>
+            <select id="foi" name="cuisine">
+                <option value="ame">American</option>
+                <option value="aus">Australian</option>
+                <option value="asi" selected>Asian</option>
+                <option value="kor">Korean</option>
+            </select>
+            <br><br>
+            <label for="news_letter" >News Letter:</label>
+            <select id="news_letter" name="news_letter">
+                <option value="yes">yes</option>
+                <option value="no" selected>No</option>
+            </select>
+            <br><br>
+            <label for="gf" >Gluten free:</label>
+            <select id="gf" name="gluten_free">
+                <option value="gf">yes</option>
+                <option value="gf" selected>No</option>
+            </select>
+            <br><br>
+            <button type="submit" onclick="check();" >Submit</button>
+        </div>
+    </div>
+</form>
+<script>
+    function check() {
+        let mo= document.getElementById("mo").value;
+        if(mo.length!==10)
+        {
+            alert("mobile number should be only 10 digits");
+            return false;
+        }
+        let y = document.getElementById("email").value;
+        let check = "@gmail.com";
+        let len_check = check.length;
+        let isfound=true;
+        let z = document.getElementById("pass").value;
+        let a = document.getElementById("re").value;
+        let len = y.length;
+        for(let i = len - 1; i >= 0 && len_check>0; i--) {
+            if (y[i] !== check[len_check - 1]) {
+                isfound = false;
+                break;
+            }
+            len_check--;
+        }
+        if (isfound === false) {
+            alert("Email doesn't end with @gmail.com");
+            return false;
+        }
+        const uppercaseRegex = /[A-Z]/;
+        const lowercaseRegex = /[a-z]/;
+        const digitRegex = /\d/;
+        const specialCharRegex = /[!@#$%^&*()_+{}\[\]:;<>,.?~\\-]/;
+        if ( !uppercaseRegex.test(z) || !lowercaseRegex.test(z) || !digitRegex.test(z) || !specialCharRegex.test(z)) {
+            alert("Password must meet all criteria:one uppercase letter, one lowercase letter, one digit, and one special character.");
+            return false;
+        }
+        if(z !== a)
+        {
+            alert("password and reenter password both are not same");
+            return false;
+        }
+    }
+</script>
+</body>
+</html>
